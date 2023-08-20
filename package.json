@@ -1,0 +1,16 @@
+{
+  "name": "govhack-2023",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jesse Bryant",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.4.0",
+    "fast-xml-parser": "^4.2.7",
+    "markdown": "^0.5.0"
+  }
+}

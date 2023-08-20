@@ -1,0 +1,47 @@
+service: govhack-2023
+
+frameworkVersion: '3'
+
+custom:
+  hms-api:
+    staging: "https://www-api.hms.heritage.nsw.gov.au/api"
+    prod: "https://www-api.hms.heritage.nsw.gov.au/api"
+  hms-search:
+    staging: "https://www.hms.heritage.nsw.gov.au/App/Item/GetSearchItemResultsForMap"
+    prod: "https://www.hms.heritage.nsw.gov.au/App/Item/GetSearchItemResultsForMap"
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: staging
+  region: ap-southeast-2
+  versionFunctions: false
+  environment:
+    HMS_API: ${self:custom.hms-api.${self:provider.stage}}
+    HMS_SEARCH: ${self:custom.hms-search.${self:provider.stage}}
+    NODE_ENV: ${self:provider.stage}
+  httpApi:
+    cors: true
+
+functions:
+  suburb_lookup:
+    handler: index.handler.suburb_lookup
+    timeout: 30
+    events:
+      - httpApi:
+          method: GET
+          path: /suburb-lookup/{suburb}/{state}
+  item_search:
+    handler: index.handler.item_search
+    timeout: 30
+    events:
+      - httpApi:
+          method: GET
+          path: /item-search/{suburb}/{state}
+  wikipedia_search:
+    handler: index.handler.wikipedia_search
+    timeout: 30
+    events:
+      - httpApi:
+          method: GET
+          path: /wiki-search/{search_val}
