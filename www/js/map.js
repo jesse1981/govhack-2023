@@ -31,10 +31,15 @@ function initAutocomplete() {
 
 function fillInAddress() {
     // center map and zoom in on selected address
-    map.panTo(autocomplete.getPlace().geometry.location);
+    let thisPlace = autocomplete.getPlace();
+    console.log("PLACE",thisPlace);
+    let c = thisPlace.address_components;
+    let thisAddress = `${c[0].long_name} ${c[1].long_name}, ${c[2].long_name}, ${c[4].long_name} ${c[6].long_name}`;
+
+    map.panTo(thisPlace.geometry.location);
     map.setZoom(14);
     addItemMarker({
-        address: autocomplete.getPlace().formatted_address
+        address: thisAddress
     });
 
     const place = autocomplete.getPlace();
@@ -69,6 +74,7 @@ function fillInAddress() {
 }
 
 function addItemMarker(item) {
+    console.log("ITEM",item)
     geo.geocode({address: item.address},function(results, status){
         if (status == google.maps.GeocoderStatus.OK) {              
             var myLatLng = results[0].geometry.location;
