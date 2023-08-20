@@ -163,7 +163,7 @@ module.exports.handler = {
 
         if (result.status == 200) {
             // Get the first result canonical url
-            let wiki_url = await w.getFullUrl(result);
+            //let wiki_url = await w.getFullUrl(result);
 
             // Get the page infobox
             let infobox = await w.getInfoboxData(result.data.query.search[0].pageid),
@@ -179,9 +179,18 @@ module.exports.handler = {
                     infobox_obj[key] = val;
                 }
             }
+            // get the image url
+            if (infobox_obj.image) {
+                let image_url = await w.getImageUrl(infobox_obj.image);
+                infobox_obj.image = image_url;
+            }
+            
             console.log("infobox",infobox_obj);
         }
 
-        console.log(result);
+        return {
+            statusCode: 200,
+            body: JSON.stringify(infobox_obj)
+        }
     }
 }

@@ -34,10 +34,6 @@ functions:
   item_search:
     handler: index.handler.item_search
     timeout: 30
-    events:
-      - httpApi:
-          method: GET
-          path: /item-search/{suburb}/{state}
   wikipedia_search:
     handler: index.handler.wikipedia_search
     timeout: 30
